@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.NewCompanyMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.NewCompany" id="ResultNoticeMap">
+		<id column="new_id" property="newid"/>
+		<result column="newtitle" property="newtitle"/>
+		<result column="newimage" property="newimage"/>
+		<result column="url" property="url"/>
+		<result column="content" property="content"/>
+		<result column="type" property="type"/>
+		<result column="createtiem" property="createtime"/>
+		<result column="status" property="status"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+		<!-- <result column="empid" property="empid"/> -->
+		<association property="employeeCompany" javaType="com.jyb.pojo.EmployeeCompany">
+            <id column="empid" property="empid"/>
+		        <result column="loginname" property="loginname"/>
+		        <result column="password" property="password"/>
+		        <result column="nickname" property="nickname"/>
+		        <result column="employeeImg" property="employeeImg"/>
+		        <result column="empname" property="empname"/>
+		        <result column="identityCard" property="identityCard"/>
+		        <result column="empimg" property="empimg"/>
+		        <result column="sex" property="sex"/>
+		        <result column="age" property="age"/>
+		        <result column="qq" property="qq"/>
+		        <result column="phone" property="phone"/>
+		        <result column="email" property="email"/>
+		        <result column="roleid" property="roleid"/>
+		        <result column="worktime" property="worktime"/>
+		        <result column="status" property="status"/>
+		        <result column="remark" property="remark"/>
+		        <result column="lastip" property="lastip"/>
+		        <result column="lasttime" property="lasttime"/>
+        </association>
+	</resultMap>
+	
+	
+	<sql id="BaseSql">
+		newtitle,
+		newimage,
+		url,
+		content,
+		type,
+		createtime,
+		status,
+		empid,
+		bychar,
+		bystr
+	</sql>
+	
+	<!-- 插入数据 -->
+	<insert id="add"></insert>
+	
+	<!-- 查询新闻-->
+	<select id="listNewInfo" resultMap="ResultNoticeMap">
+		select * from  t_new_company;
+	</select>
+	
+	<!-- 根据ID查询单个 -->
+	<select id="getById" resultType="com.jyb.pojo.NewCompany">
+		select * from t_new_company where new_id=#{newid}; 
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update"></update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete"></delete>
+	<!--查询所有-->
+	<select id="list" resultMap="ResultNoticeMap">
+		select * from t_new_company;
+	</select>
+	<!-- 分页查询 -->
+	<select id="listAll" parameterType="java.util.Map" resultMap="ResultNoticeMap">
+	    select * from t_new_company limit #{start},#{size};
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="getTotal" resultType="java.lang.Integer">
+	    select count(*) from t_new_company;
+	</select>
+</mapper>

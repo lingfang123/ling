@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.PermissionMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Permission" id="ResultPermissionMap">
+	<id column="p_id" property="pid"/>
+	<result column="p_name" property="pname"/>
+	<result column="type" property="type"/>
+	<result column="url" property="url"/>
+	<result column="percode" property="percode"/>
+	<result column="parentid" property="parentid"/>
+	<result column="available" property="available"/>
+	</resultMap>
+	<sql id="BaseSql">
+		p_name,
+		type,
+		url,
+		percode,
+		parentid,
+		available
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Permission">
+		insert into t_permission(<include refid="BaseSql"/>) value(#{p_name},
+		#{type},#{url},#{percode},#{parentid},#{available});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultPermissionMap">
+		select * from t_permission;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_permission where p_id=#{pid};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Permission">
+		update t_permission set 
+			p_name=#{pname},
+			type=#{type},
+			url=#{url},
+			percode=#{percode},
+			parentid=#{parentid},
+			available=#{available}
+		 where p_id=#{pid};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_permission where p_id = #{pid}
+	</delete>
+</mapper>

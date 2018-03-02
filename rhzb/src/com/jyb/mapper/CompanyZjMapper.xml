@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.CompanyZjMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.CompanyZj" id="ResultCompanyZjMap">
+	<id column="id" property="id"/>
+	<result column="company_img" property="companyimg"/>
+	</resultMap>
+	<sql id="BaseSql">
+		company_img
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.CompanyZj">
+		insert into t_company_zj(<include refid="BaseSql"/>) value(#{companyimg});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultCompanyZjMap">
+		select * from t_company_zj;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_company_zj where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.CompanyZj">
+		update t_company_zj set 
+			company_img=#{companyimg}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_company_zj where id = #{id}
+	</delete>
+</mapper>

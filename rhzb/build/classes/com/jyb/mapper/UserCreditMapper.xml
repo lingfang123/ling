@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserCreditMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.UserCredit" id="ResultCreditMap">
+	<id column="id" property="id"/>
+	<result column="userid" property="userid"/>
+	<result column="integral" property="integral"/>
+	<result column="lineOfCredit" property="lineOfCredit"/>
+	<result column="jknumber" property="jknumber"/>
+	<result column="yqnumber" property="yqnumber"/>
+	<result column="bychar" property="bychar"/>
+	<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		integral,
+		lineOfCredit,
+		jknumber,
+		yqnumber,
+		bychar,
+		bystr
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserCredit">
+		insert into t_user_credit(<include refid="BaseSql"/>) value(#{userid},
+		#{integral},#{lineOfCredit},#{jknumber},#{yqnumber},#{bychar},#{bystr});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultCreditMap">
+	select * from t_user_credit;
+	</select>
+	
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer">
+	select * from t_user_credit where id=#{id};
+	</select>
+	
+	<!-- 根据userid查询单个 -->
+	<select id="getByuserid" parameterType="java.lang.Integer" resultType="com.jyb.pojo.UserCredit">
+	select * from t_user_credit where userid=#{userid};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update"></update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	delete from t_user_credit where id=#{id};
+	</delete>
+</mapper>

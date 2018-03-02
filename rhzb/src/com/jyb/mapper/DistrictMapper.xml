@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.DistrictMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.District" id="ResultDistrictMap">
+		<id column="d_id" property="did"/>
+		<result column="districtName" property="districtName"/>
+		<result column="cityID" property="cityID"/>
+	</resultMap>
+	<sql id="BaseSql">
+	districtName,
+	cityID
+	</sql>
+	
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.District" >
+		insert into t_district(<include refid="BaseSql"/>) value(#{districtName},
+		#{cityID});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultDistrictMap">
+	select * from t_district;
+	</select>
+	
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer">
+	select * from t_district where id=#{did};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="java.lang.Integer"></update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	delete from t_district where id=#{did};
+	</delete>
+</mapper>

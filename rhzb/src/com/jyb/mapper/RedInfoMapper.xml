@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.RedInfoMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.RedInfo" id="ResultRedInfoMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="redid" property="redid"/>
+		<result column="markid" property="markid"/>
+		<result column="redname" property="redname"/>
+		<result column="markname" property="markname"/>
+		<result column="redtime" property="redtime"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		redid,
+		markid,
+		redname,
+		markname,
+		redtime,
+		bychar,
+		bystr
+	</sql>
+	<insert id="add" parameterType="com.jyb.pojo.RedInfo">
+		insert into t_redinfo(<include refid="BaseSql"/>) value(#{userid},
+		#{redid},#{markid},#{redname},#{markname},#{redtime},#{bychar},#{bystr});
+	</insert>
+	<delete id="delete" parameterType="java.lang.Integer"></delete>
+	<select id="list" resultMap="ResultRedInfoMap">
+		select * from t_redinfo
+	</select>
+	<update id="update" parameterType="com.jyb.pojo.RedInfo"></update>
+	<select id="getById" parameterType="java.lang.Integer" resultMap="ResultRedInfoMap">
+		
+	</select>
+</mapper>
+		

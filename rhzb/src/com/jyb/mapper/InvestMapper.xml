@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.InvestMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <resultMap type="com.jyb.pojo.Invest" id="ResultInvestMap">
+        <id column="id" property="id"/>
+        <result column="userid" property="userid"/>
+        <result column="tmarkid" property="tmarkid"/>
+        <result column="markid" property="markid"/>
+        <result column="refundtime" property="refundtime"/>
+        <result column="markmoney" property="markmoney"/>
+        <result column="overduemoney" property="overduemoney"/>
+        <result column="borrowtime" property="borrowtime"/>
+        <result column="bidtime" property="bidtime"/>
+        <result column="status" property="status"/>
+        <result column="backup1" property="backup1"/>
+        <result column="backup2" property="backup2"/>
+    </resultMap>
+    
+    <sql id="BaseSql">
+        userid,
+        tmarkid,
+        markid,
+        refundtime,
+        markmoney,
+        overduemoney,
+        borrowtime,
+        bidtime,
+        status,
+        hbid,
+        hbmoney,
+        backup1,
+        backup2
+    </sql>
+    <!-- 按status查询个人总记录数 -->
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) from t_invest where userid=#{arg0} and status=#{arg1};
+    </select>
+    <select id="getmaney" resultType="java.lang.Integer">
+        select sum(markmoney) from t_invest where tmarkid=#{makid};
+    </select>
+    <!-- 插入数据 -->
+    <insert id="add" parameterType="com.jyb.pojo.Invest">
+        insert into t_invest(<include refid="BaseSql"/>) value(#{userid},#{tmarkid},#{markid},#{refundtime},#{markmoney},#{overduemoney},#{borrowtime},#{bidtime},#{status},#{hbid},#{hbmoney},#{backup1},#{backup2});
+    </insert>
+    
+    <!-- 查询所有 -->
+    <select id="list" resultMap="ResultInvestMap">
+        select * from t_invest;
+    </select>
+    
+    <!-- 根据ID查询单个 -->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.Invest">
+        select * from t_invest where id=#{id};
+    </select>
+     <select id="getBytmakid" parameterType="java.lang.Integer" resultMap="ResultInvestMap">
+        select * from t_invest where tmarkid=#{tmkid};
+    </select>
+    
+    <!-- 修改数据 -->
+    <update id="update" parameterType="com.jyb.pojo.Invest">
+        update t_invest set userid=#{userid},tmarkid=#{tmarkid},markid=#{markid},refundtime=#{refundtime},markmoney=#{markmoney},overduemoney=#{overduemoney},borrowtime=#{borrowtime},bidtime=#{bidtime},status=#{status},backup1=#{backup1},backup2=#{backup2} where id=#{id};
+    </update>
+    
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_invest where id=#{id};
+    </delete>
+    
+    <!-- 根据userid、状态（status）查询list -->
+    <select id="listByUseridWithStatus" parameterType="java.util.Map" resultMap="ResultInvestMap">
+    	select t_invest.*,t_mark_info.headline as title from t_invest,t_mark_info where t_invest.userid=#{userid} and t_invest.status=#{status} and t_invest.tmarkid=t_mark_info.id ORDER BY t_invest.bidtime DESC limit #{start},#{size};
+    </select>
+    <!-- 查询累计投资 -->
+    <select id="getAllCorpus" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        select COALESCE(sum(i.markmoney),0.00) from t_invest i where userid=#{arg0};
+    </select>
+    <!-- 查询累计收益 -->
+    <select id="getAllLucre" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        select COALESCE(sum(i.overduemoney),0.00) from t_invest i where userid=#{arg0} and status=#{arg1};
+    </select>
+    <!-- 查询待收本金 -->
+    <select id="getWaitCorpus" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        select COALESCE(sum(i.markmoney),0.00) from t_invest i where userid=#{arg0} and status!=#{arg1};
+    </select>
+    <!-- 查询待收收益 -->
+    <select id="getWaitLucre" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        select COALESCE(sum(i.overduemoney),0.00) from t_invest i where userid=#{arg0} and status!=#{arg1};
+    </select>
+    <!-- 根据用时间查询 -->
+	<select id="getMonthBidTime" parameterType="java.lang.String" resultType="com.jyb.pojo.Invest">
+		select * from t_invest where bidtime like #{bidtime}"%";
+	</select>
+    <!-- 按tmarkid查询总记录数 -->
+    <select id="getTotalBytmarkid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from t_invest where tmarkid=#{arg0};
+    </select>
+    <!-- 根据tmarkid查询List -->
+    <select id="listByTmarkid" parameterType="java.util.Map" resultMap="ResultInvestMap">
+        select t_invest.*,t_user.username as username from t_invest,t_user where t_invest.tmarkid=#{tmarkid} and t_invest.userid=t_user.id ORDER BY t_invest.bidtime DESC;<!--  limit #{start},#{size} -->
+    </select>
+    <!-- 根据标的id查出投资记录 -->
+    <select id="getByInvestTmarkid" resultMap="ResultInvestMap" parameterType="int">
+    	SELECT
+			*
+		FROM
+			t_invest i
+		WHERE
+			i.tmarkid = #{tmarkid}
+    </select>
+    <!-- 导出 -->
+    <select id="investPoi" parameterType="java.lang.Integer" resultMap="ResultInvestMap">
+        select * from t_invest where userid=#{arg0};
+    </select>
+    
+     <!-- 根据userid查询投资记录-->
+    <select id="getByUserid" resultMap="ResultInvestMap" parameterType="java.lang.Integer">
+    	select * from t_invest i where i.userid=#{userid}
+    </select>
+    
+    
+</mapper>

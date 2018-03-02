@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserRoleMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.UserRole" id="ResultUserRoleMap">
+	<id column="id" property="id"/>
+	<result column="userid" property="userid"/>
+	<result column="roleid" property="roleid"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		roleid
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserRole">
+		insert into t_user_role(<include refid="BaseSql"/>) value(#{userid},
+		#{roleid});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserRoleMap">
+		select * from t_user_role;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_user_role where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.UserRole">
+		update t_user_role set 
+			userid=#{userid},
+			roleid=#{roleid}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_user_role where id = #{id}
+	</delete>
+</mapper>

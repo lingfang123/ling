@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ApplyforMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Applyfor" id="ResultApplyMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="markid" property="markid"/>
+		<result column="headline" property="headline"/>
+		<result column="purpose" property="purpose"/>
+		<result column="applyformoney" property="applyformoney"/>
+		<result column="applyforTime" property="applyforTime"/>
+		<result column="borrowtime" property="borrowtime"/>
+		<result column="deadline" property="deadline"/>
+		<result column="nhrate" property="nhrate"/>
+		<result column="paymentMode" property="paymentMode"/>
+		<result column="repaymoney" property="repaymoney"/>
+		<result column="managemoney" property="managemoney"/>
+		<result column="struts" property="struts"/>
+		<result column="checka" property="check"/>
+		<result column="sktime" property="sktime"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		markid,
+		headline,
+		purpose,
+		applyformoney,
+		applyforTime,
+		borrowtime,
+		deadline,
+		nhrate,
+		paymentMode,
+		repaymoney,
+		managemoney,
+		struts,
+		checka,
+		sktime,
+		bychar,
+		bystr
+	</sql>
+	
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Applyfor">
+		insert into t_loans_applyfor(<include refid="BaseSql"/>)
+		value(
+			#{userid},
+			#{markid},
+			#{headline},
+			#{purpose},
+			#{applyformoney},
+			#{applyforTime},
+			#{borrowtime},
+			#{deadline},
+			#{nhrate},
+			#{paymentMode},
+			#{repaymoney},
+			#{managemoney},
+			#{struts},
+			#{check},
+			#{sktime},
+			#{bychar},
+			#{bystr})
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultApplyMap">
+		select * from t_loans_applyfor
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" resultType="com.jyb.pojo.Applyfor" parameterType="int">
+		select * from t_loans_applyfor where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Applyfor">
+		<!-- //update t_applyfor set userid=#{userid},markid=#{markid},headline=#{headline},purpose=#{purpose} ,applyformoney=#{applyformoney} ,
+		applyforTime=#{applyforTime},borrowtime=#{borrowtime},deadline=#{deadline},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{},=#{}
+		
+		where id=#{id}; -->
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_applyfor where id = #{id}
+	</delete>
+</mapper>

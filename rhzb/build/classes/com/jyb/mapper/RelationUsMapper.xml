@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.RelationUsMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.RelationUs" id="ResultRelationUsMap">
+	<id column="id" property="id"/>
+	<result column="gs_site" property="gssite"/>
+	<result column="gs_number" property="gsnumber"/>
+	<result column="dawk_number" property="dawknumber"/>
+	<result column="servicenumber" property="servicenumber"/>
+	<result column="email" property="email"/>
+	<result column="servetime" property="servetime"/>
+	<result column="hz_email" property="hzemail"/>
+	<result column="hz_name" property="hzname"/>
+	<result column="mt_email" property="mtemail"/>
+	<result column="mt_name" property="mtname"/>
+	<result column="recruit_email" property="recruitemail"/>
+	<result column="recruit_name" property="recruitname"/>
+	<result column="company_coord" property="companycoord"/>
+	</resultMap>
+	<sql id="BaseSql">
+		gs_site,
+		gs_number,
+		dawk_number,
+		servicenumber,
+		email,
+		servetime,
+		hz_email,
+		hz_name,
+		mt_email,
+		mt_name,
+		recruit_email,
+		recruit_name,
+		company_coord
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.RelationUs">
+		insert into t_relation_us(<include refid="BaseSql"/>) value(#{gssite},
+		#{gsnumber},#{dawknumber},#{servicenumber},#{email},#{servetime},
+		#{hzemail},#{hzname},#{mtemail},#{mtname},
+		#{recruitemail},#{recruitname},#{companycoord});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultRelationUsMap">
+		select * from t_relation_us;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_relation_us where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.RelationUs">
+		update t_relation_us set 
+			gs_site=#{gssite},
+			gs_number=#{gsnumber},
+			dawk_number=#{dawknumber},
+			servicenumber=#{servicenumber},
+			email=#{email},
+			servetime=#{servetime}
+			hz_email=#{hzemail}
+			hz_name=#{hzname}
+			mt_email=#{mtemail}
+			mt_name=#{mtname}
+			recruit_email=#{recruitemail}
+			recruit_name=#{recruitname}
+			company_coord=#{companycoord}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_relation_us where id = #{id}
+	</delete>
+</mapper>

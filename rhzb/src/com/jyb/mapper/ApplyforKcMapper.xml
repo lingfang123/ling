@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ApplyforKcMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.ApplyforInspect" id="ResultApplyKcMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="applyforid" property="applyforid"/>
+		<result column="phone" property="phone"/>
+		<result column="time" property="time"/>
+		<result column="email" property="email"/>
+		<result column=" address" property=" address"/>
+		<result column=" struts" property=" struts"/>
+		<result column="backup1" property="backup1"/>
+		<result column="backup2" property="backup2"/>
+	</resultMap>
+	
+	<sql id="BaseSql">
+		name,
+		applyforid,
+		phone,
+		time,
+		email,
+		address,
+		struts,
+		backup1,
+		backup2
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.ApplyforKc">
+		insert into t_applyforkc(<include refid="BaseSql"></include>)value(#{name},#{applyforid},#{phone},#{time},#{email},
+		#{address},#{struts},#{backup1},#{backup2});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultApplyKcMap">
+		select * from t_applyforkc
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.ApplyforKc">
+		select * from t_applyforkc where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.ApplyforKc">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer"> 
+		delete from t_applyforkc where id = #{id}
+	</delete>
+	</mapper>
+	

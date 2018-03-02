@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.RolePermissionMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.RolePermission" id="ResultRolePermissionMap">
+	<id column="id" property="id"/>
+	<result column="role" property="role"/>
+	<result column="permissionid" property="permissionid"/>
+	</resultMap>
+	<sql id="BaseSql">
+		role,
+		permissionid
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.RolePermission">
+		insert into t_role_permission(<include refid="BaseSql"/>) value(#{role},
+		#{permissionid});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultRolePermissionMap">
+		select * from t_role_permission;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_role_permission where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.RolePermission">
+		update t_role_permission set 
+			role=#{role},
+			permissionid=#{permissionid},
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_role_permission where id = #{id}
+	</delete>
+</mapper>

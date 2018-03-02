@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserRechargeMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserRecharge" id="ResultUserMap">
+		<id column="id" property="userid"/>
+		<result column="userid" property="userid"/>
+		<result column="cztime" property="cztime"/>
+		<result column="rechargeType" property="rechargeType"/>
+		<result column="bankName" property="bankName"/>
+		<result column="bankcardno" property="bankcardno"/>
+		<result column="billcode" property="billcode"/>
+		<result column="paynumber" property="paynumber"/>
+		<result column="rechargeMoney" property="rechargeMoney"/>
+		<result column="ipAddress" property="ipAddress"/>
+		<result column="areaIp" property="areaIp"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		cztime,
+		rechargeType,
+		bankName,
+		bankcardno,
+		billcode,
+		paynumber,
+		rechargeMoney,
+		ipAddress,
+		areaIp
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserRecharge">
+		insert into t_user_recharge(<include refid="BaseSql"/>) value(#{userid},#{cztime},
+		#{rechargeType},#{bankName},#{bankcardno},#{billcode},#{paynumber},#{rechargeMoney},#{ipAddress},#{areaIp});
+	</insert>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserMap">
+		select * from t_user_recharge;
+	</select>
+		
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_user_recharge where id=#{id};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.UserRecharge">
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete">
+		delete from t_user_recharge where id=#{id};
+	</delete>
+	
+</mapper>

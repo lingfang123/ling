@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jyb.mapper.PconMapper">
+	<resultMap type="com.jyb.pojo.Province" id="provicesMap">
+	<!-- <id column="p_id" property="pid"/> -->
+	<result column="p_id" property="pid"/>
+	<result column="provinceName" property="provinceName"/>
+	</resultMap>
+	
+	<resultMap type="com.jyb.pojo.City" id="cityMap">
+	<!-- <id column="c_id" property="cid"/> -->
+	<result column="c_id" property="cid"/>
+	<result column="cityName" property="cityName"/>
+	<result column="provinceID" property="provinceID"/>
+	</resultMap>
+	
+	<resultMap type="com.jyb.pojo.District" id="districtMap">
+	<!-- <id column="con_id" property="tid"/> -->
+	<result column="d_id" property="did"/>
+	<result column="districtName" property="districtName"/>
+	<result column="cityID" property="cityID"/>
+	</resultMap>
+	
+	<select id="provinceList" resultMap="provicesMap">
+	select * from t_province;
+	</select>
+	
+	<select id="cityList" resultMap="cityMap" parameterType="java.lang.Integer">
+	select * from t_city where provinceID=#{provinceID}
+	</select>
+	
+	<select id="districtList" resultMap="districtMap" parameterType="java.lang.Integer">
+	select * from t_district where cityID=#{cityID}
+	</select>
+	
+	
+	<select id="selProByid" resultType="com.jyb.pojo.Province" parameterType="java.lang.Integer">
+	select * from t_province where p_id=#{pid}
+	</select>
+	
+	<select id="selCityByid" resultType="com.jyb.pojo.City" parameterType="java.lang.Integer">
+	select * from t_city where c_id=#{cid}
+	</select>
+	
+	<select id="selDisByid" resultType="com.jyb.pojo.District" parameterType="java.lang.Integer">
+	select * from t_district where d_id=#{did}
+	</select>
+
+</mapper>

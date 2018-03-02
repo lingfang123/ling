@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.FinanceCompanydetailMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <resultMap type="com.jyb.pojo.FinanceCompanydetail" id="ResultFinanceCompanydetailMap">
+        <id column="id" property="id"/>
+        <result column="incomeType" property="incomeType"/>
+        <result column="transMoney" property="transMoney"/>
+        <result column="useableMoney" property="useableMoney"/>
+        <result column="operateTime" property="operateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    
+    <sql id="BaseSql">
+        incomeType,
+        transMoney,
+        useableMoney,
+        operateTime,
+        remark
+    </sql>
+    
+    <!-- 插入数据 -->
+    <insert id="add" parameterType="com.jyb.pojo.FinanceCompanydetail">
+        insert into t_finance_companydetail(<include refid="BaseSql"/>) 
+        values(#{incomeType},#{transMoney},#{useableMoney},#{operateTime},#{remark});
+    </insert>
+    
+    <!-- 查询所有 -->
+    <select id="list" resultMap="ResultFinanceCompanydetailMap">
+        select * from t_finance_companydetail;
+    </select>
+    
+    <!-- 根据ID查询单个 -->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.FinanceCompanydetail">
+        select * from t_finance_companydetail where id=#{id};
+    </select>
+    
+    <!-- 修改数据 -->
+    <update id="update" parameterType="com.jyb.pojo.FinanceCompanydetail">
+        update t_finance_companydetail set incomeType=#{incomeType},transMoney=#{transMoney},useableMoney=#{useableMoney},operateTime=#{operateTime},remark=#{remark} where id=#{id};
+    </update>
+    
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_finance_companydetail where id=#{id};
+    </delete>
+</mapper>

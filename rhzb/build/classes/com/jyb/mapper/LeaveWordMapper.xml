@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.LeaveWordMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.LeaveWord" id="ResultLeaveWordMap">
+	<id column="id" property="id"/>
+	<result column="content" property="content"/>
+	<result column="userid" property="userid"/>
+	<result column="createTime" property="createTime"/>
+	<result column="replyContent" property="replyContent"/>
+	<result column="adminid" property="adminid"/>
+	<result column="replyTime" property="replyTime"/>
+	</resultMap>
+	<sql id="BaseSql">
+		content,
+		userid,
+		createTime,
+		replyContent,
+		adminid,
+		replyTime
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.LeaveWord">
+		insert into t_leave_word(<include refid="BaseSql"/>) value(#{content},
+		#{userid},#{createTime},#{replyContent},#{adminid},#{replyTime});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultLeaveWordMap">
+		select * from t_leave_word;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_leave_word where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.LeaveWord">
+		update t_leave_word set 
+			content=#{content},
+			userid=#{userid},
+			createTime=#{createTime},
+			replyContent=#{replyContent},
+			adminid=#{adminid},
+			replyTime=#{replyTime}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_leave_word where id = #{id}
+	</delete>
+</mapper>

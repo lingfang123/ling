@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.NoticeCompanyMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.NoticeCompany" id="ResultNoticeCompanyMap">
+		<id column="n_id" property="nid"/>
+		<result column="newsname" property="newsname"/>
+		<result column="url" property="url"/>
+		<result column="content" property="content"/>
+		<result column="type" property="type"/>
+		<result column="createtime" property="createtime"/>
+		<result column="status" property="status"/>
+		<result column="empid" property="empid"/>
+	</resultMap>
+	<sql id="BaseSql">
+		newsname,
+		url,
+		content,
+		type,
+		createtime,
+		status,
+		empid
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add"></insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultNoticeCompanyMap">
+		select * from  t_notice_company;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" resultType="com.jyb.pojo.NoticeCompany">
+		select * from t_notice_company where n_id=#{nid};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update"></update>
+	<!-- 删除数据 -->
+	<delete id="delete"></delete>
+	<!-- 分页查询 -->
+	<select id="listAll" parameterType="java.util.Map" resultMap="ResultNoticeCompanyMap">
+	    select * from t_notice_company limit #{start},#{size};
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="getTotal" resultType="java.lang.Integer">
+	    select count(*) from t_notice_company;
+	</select>
+</mapper>

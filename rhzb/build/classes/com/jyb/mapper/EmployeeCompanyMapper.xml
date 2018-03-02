@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.EmployeeCompanyMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <resultMap type="com.jyb.pojo.EmployeeCompany" id="ResultEmployeeCompanyMap">
+        <id column="emp_id" property="empid"/>
+        <result column="loginname" property="loginname"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="employeeImg" property="employeeImg"/>
+        <result column="empname" property="empname"/>
+        <result column="identityCard" property="identityCard"/>
+        <result column="empimg" property="empimg"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="qq" property="qq"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="roleid" property="roleid"/>
+        <result column="worktime" property="worktime"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="lastip" property="lastip"/>
+        <result column="lasttime" property="lasttime"/>
+    </resultMap>
+    
+    <sql id="BaseSql">
+        loginname,
+        password,
+        nickname,
+        employeeImg,
+        empname,
+        identityCard,
+        empimg,
+        sex,
+        age,
+        qq,
+        phone,
+        email,
+        roleid,
+        worktime,
+        status,
+        remark,
+        lastip,
+        lasttime
+    </sql>
+    
+    <!-- 插入数据 -->
+    <insert id="add" parameterType="com.jyb.pojo.EmployeeCompany">
+        insert into t_employee_company(<include refid="BaseSql"/>) value(#{loginname},
+        	#{password},#{nickname},#{employeeImg},#{empname},#{identityCard},#{empimg},
+        	#{sex},#{age},#{qq},#{phone},#{email},#{roleid},#{worktime},#{status},
+        	#{remark},#{lastip},#{lasttime});
+    </insert>
+    
+    <!-- 查询所有 -->
+    <select id="list" resultMap="ResultEmployeeCompanyMap">
+        select * from t_employee_company;
+    </select>
+    
+    <!-- 根据ID查询单个 -->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.EmployeeCompany">
+        select * from t_employee_company where emp_id=#{empid};
+    </select>
+    
+    <!-- 修改数据 -->
+    <update id="update" parameterType="com.jyb.pojo.EmployeeCompany">
+        update t_employee_company set loginname=#{loginname},password=#{password},
+        	nickname=#{nickname},employeeImg=#{employeeImg},empname=#{empname},
+        	identityCard=#{identityCard},empimg=#{empimg},sex=#{sex},age=#{age},
+        	qq=#{qq},phone=#{phone},email=#{email},roleid=#{roleid},worktime=#{worktime},
+        	status=#{status},remark=#{remark},lastip=#{lastip},lasttime=#{lasttime} where emp_id=#{empid};
+    </update>
+    
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_employee_company where emp_id=#{empid};
+    </delete>
+</mapper>

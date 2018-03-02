@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.AuthRoleMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.AuthRole" id="ResultAuthRoleMap">
+	<id column="r_id" property="r_id"/>
+	<result column="r_name" property="r_name"/>
+	<result column="create_time" property="create_time"/>
+	<result column="modelid" property="modelid"/>
+	<result column="status" property="status"/>
+	<result column="remark" property="remark"/>
+	</resultMap>
+	<sql id="BaseSql">
+		r_name,
+		create_time,
+		modelid,
+		status,
+		remark
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.AuthRole">
+		insert into t_auth_role(<include refid="BaseSql"/>) value(#{rname},
+		#{createtime},#{modelid},#{status},#{remark});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultAuthRoleMap">
+		select * from t_auth_role;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_auth_role where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.AuthRole">
+		update t_auth_role set 
+			r_name=#{rname},
+			create_time=#{createtime},
+			modelid=#{modelid},
+			status=#{status},
+			remark=#{remark},
+		 where r_id=#{rid};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_auth_role where r_id = #{rid}
+	</delete>
+</mapper>

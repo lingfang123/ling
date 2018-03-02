@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.BrokerageMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.ApplyforInspect" id="ResultBrokerageMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="brokeragemoney" property="brokeragemoney"/>
+		<result column="hqtime" property="hqtime"/>
+		<result column="mark" property="mark"/>
+		<result column="remark" property="remark"/>
+		<result column=" bychar" property=" bychar"/>
+	<result column=" bystr" property=" bystr"/>
+	
+	</resultMap>
+	
+	<sql id="BaseSql">
+		userid,
+		brokeragemoney,
+		hqtime,
+		mark,
+		remark,
+		bychar,
+		bystr
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Brokerage">
+		insert into t_brokerage(<include refid="BaseSql"></include>)value(#{userid},#{brokeragemoney},#{hqtime},#{mark},#{remark},
+		#{bychar},#{bystr});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultBrokerageMap">
+		select * from t_brokerage
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.Brokerage">
+		select * from t_brokerage where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Brokerage">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer"> 
+		delete from t_brokerage where id = #{id}
+	</delete>
+	</mapper>

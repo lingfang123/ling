@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.User" id="ResultUserMap">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="nickname" property="nickname"/>
+		<result column="userimg" property="userimg"/>
+		<result column="sex" property="sex"/>
+		<result column="age" property="age"/>
+		<result column="provinceID" property="provinceID"/>
+		<result column="cityID" property="cityID"/>
+		<result column="districtID" property="districtID"/>
+		<result column="phone" property="phone"/>
+		<result column="createTime" property="createTime"/>
+		
+		<result column="moneyid" property="moneyid"/>
+		<result column="creditid" property="creditid"/>
+		<result column="vipid" property="vipid"/>
+		
+		<result column="referrer" property="referrer"/>
+		<result column="referrerm" property="referrerm"/>	
+		<result column="status" property="status"/>
+		<result column="loginNumber" property="loginNumber"/>
+		<result column="lastIp" property="lastIp"/>
+		<result column="lastTime" property="lastTime"/>
+		<result column="areaIp" property="areaIp"/>
+		<result column="birthday" property="birthday"/>
+	</resultMap>
+	<sql id="BaseSql">
+		username,
+		password,
+		nickname,
+		userimg,
+		sex,
+		age,
+		provinceID,
+		cityID,
+		districtID,
+		phone,
+		createTime,
+		moneyid,
+		creditid,
+		vipid,
+		referrer,
+		referrerm,
+		status,
+		loginNumber,
+		lastIp,
+		lastTime,
+		areaIp,
+		birthday
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.User">
+		insert into t_user(<include refid="BaseSql"/>) value(#{username},#{password},
+		#{nickname},#{userimg},#{sex},#{age},#{provinceID},#{cityID},#{districtID},#{phone},#{createTime},
+		#{moneyid},#{creditid},#{vipid},#{referrer},#{referrerm},#{status},
+		#{loginNumber},#{lastIp},#{lastTime},#{areaIp},#{birthday});
+	</insert>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserMap">
+		select * from t_user;
+	</select>
+		
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.User">
+		select * from t_user where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.User">
+		update t_user set 
+			<if test="username!=null and username!=''">
+         		username=#{username},
+        	</if>
+        	<if test="password!=null and password!=''">
+         		password=#{password},
+        	</if>
+        	<if test="nickname!=null and nickname!=''">
+         		nickname=#{nickname},
+        	</if>
+        	<if test="userimg!=null and userimg!=''">
+         		userimg=#{userimg},
+        	</if>
+        	<if test="sex!=null and sex!=''">
+         		sex=#{sex},
+        	</if>
+        	<if test="age!=null and age!=''">
+         		age=#{age},
+        	</if>
+        	<if test="phone!=null and phone!=''">
+         		phone=#{phone},
+        	</if>
+        	<if test="referrer!=null and referrer!=''">
+         		referrer=#{referrer},
+        	</if>
+        	<if test="loginNumber!=null and loginNumber!=''">
+         		loginNumber=#{loginNumber},
+        	</if>
+        	<if test="birthday!=null and birthday!=''">
+         		birthday=#{birthday},
+        	</if>
+        	<if test="lastTime!=null">
+         		lastTime=#{lastTime},
+        	</if>
+        	<if test="lastIp!=null and lastIp!=''">
+         		lastIp=#{lastIp},
+        	</if>
+        	<if test="areaIp!=null and areaIp!=''">
+         		areaIp=#{areaIp},
+        	</if>
+        	<if test="provinceID!=null and provinceID!=''">
+         		provinceID=#{provinceID},
+        	</if>
+        	<if test="cityID!=null and cityID!=''">
+         		cityID=#{cityID},
+        	</if>
+        	<if test="districtID!=null and districtID!=''">
+         		districtID=#{districtID},
+        	</if>
+            id=#{id} where id=#{id};
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_user where id = #{id}
+	</delete>
+	
+	<!-- 根据用户名查询 -->
+	<select id="getByuserName" parameterType="java.lang.String" resultType="com.jyb.pojo.User">
+		select * from t_user where username = #{username};
+	</select>
+	
+	<!-- 验证用户名是否存在 -->
+	<select id="checkUsername" parameterType="java.lang.String" resultMap="ResultUserMap">
+		select * from t_user where username = #{username};
+	</select>
+	
+	<!-- 验证手机号是否存在 -->
+	<select id="checkPhone" parameterType="java.lang.String" resultMap="ResultUserMap">
+		select * from t_user where phone = #{phone};
+	</select>
+	
+	<!-- 根据用户名查询 -->
+	<select id="getByuserPhone" parameterType="java.lang.String" resultType="com.jyb.pojo.User">
+		select * from t_user where phone = #{phone};
+	</select>
+	
+	<!-- 根据用户电话号码修改密码 -->
+	<update id="updateUserPasssword" parameterType="java.lang.String">
+		update t_user set password=#{password} where phone = #{phone};
+	</update>
+	<!-- 查询注册人数 -->
+	<select id="userCount" resultType="java.lang.Integer">
+	    select count(*) from t_user;
+	</select>
+	
+	<!-- 根据用时间查询 -->
+	<select id="getMonthUserNum" parameterType="java.lang.String" resultType="com.jyb.pojo.User">
+		select * from t_user where createTime like #{createTime}"%";
+	</select>
+	<!-- 根据省份id查询各省注册人数 -->
+	<select id="getByUserPid" resultType="int" parameterType="int">
+		SELECT
+			count(*)
+		FROM
+			t_user u
+		WHERE
+			u.provinceID = #{pid}
+	</select>
+	<select id="getByUserReferrer" resultMap="ResultUserMap" parameterType="java.lang.String">
+		SELECT * FROM t_user u WHERE u.referrer = #{referrer}
+	</select>
+</mapper>

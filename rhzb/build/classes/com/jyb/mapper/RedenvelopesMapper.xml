@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.RedenvelopesMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.Redenvelopes" id="ResultRedenvelopesMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="harvesttime" property="harvesttime"/>
+		<result column="minmoney" property="minmoney"/>
+		<result column="tjmoney" property="tjmoney"/>
+		<result column="hbmoney" property="hbmoney"/>
+		<result column="expiretime" property="expiretime"/>
+		<result column="struts" property="struts"/>
+		<result column="daynumber" property="daynumber"/>
+		<result column="remark" property="remark"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		harvesttime,
+		minmoney,
+		tjmoney,
+		hbmoney,
+		expiretime,
+		struts,
+		daynumber,
+		remark,
+		bychar,
+		bystr
+	</sql>
+	<!--  用户红包表 数据插入 -->
+	<insert id="add" parameterType="com.jyb.pojo.Redenvelopes">
+		insert into t_redenvelopes(<include refid="BaseSql"/>) value(#{userid},
+			#{harvesttime},#{minmoney},#{tjmoney},#{hbmoney},#{expiretime},
+			#{struts},#{daynumber},#{remark},#{bychar},#{bystr});
+	</insert>
+	
+	<!-- 用户红包表 数据查询 -->
+	<select id="list" resultMap="ResultRedenvelopesMap" >
+		select * from t_redenvelopes
+	</select>
+	
+	<!-- 用户红包表 单个查询 -->
+	<select id="getById" parameterType="java.lang.Integer" resultMap="ResultRedenvelopesMap">
+		select * from t_redenvelopes t where t.id = #{id}
+	</select>
+	
+	<!-- 用户红包表 数据修改 -->
+	<update id="update" parameterType="com.jyb.pojo.Redenvelopes">
+		update t_redenvelopes set userid=#{userid},
+			harvesttime=#{harvesttime},
+			minmoney=#{minmoney},
+			tjmoney=#{tjmoney},
+			hbmoney=#{hbmoney},
+			expiretime=#{expiretime},
+			struts=#{struts},
+			daynumber=#{daynumber},
+			remark=#{remark},
+			bychar=#{bychar},
+			bystr=#{bystr} where id=#{id}; 
+	</update>	
+
+	<!-- 用户红包表 数据删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_redenvelopes where id =#{id};
+	</delete>
+	<select id="findList" resultMap="ResultRedenvelopesMap" parameterType="java.lang.Integer" >
+		select * from t_redenvelopes r where
+			<if test="arg1==0"> (NOW() between r.harvesttime and r.expiretime) and r.userid=#{arg0} and r.struts=#{arg1}</if>
+			<if test="arg1==1"> r.userid=#{arg0} and r.struts=#{arg1}</if>
+			<if test="arg1==2"> r.userid=#{arg0} and r.struts=#{arg1}</if>;
+	</select>
+	<!-- 根据用户id查询可用红包 -->
+	<select id="getByUserid" parameterType="java.lang.Integer" resultMap="ResultRedenvelopesMap">
+	    select * from t_redenvelopes r where (NOW() between r.harvesttime and r.expiretime) and r.userid=#{userid} and r.struts=0;
+	</select>
+</mapper>

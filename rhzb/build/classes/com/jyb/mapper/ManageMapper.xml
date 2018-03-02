@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ManageMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <resultMap type="com.jyb.pojo.Manage" id="ResultManageMap">
+        <id column="m_id" property="mid"/>
+        <result column="m_TransactionAmount" property="mTransactionAmount"/>
+        <result column="m_sumTransactionNum" property="msumTransactionNum"/>
+        <result column="m_yesterdayAmount" property="myesterdayAmount"/>
+        <result column="m_borrowMoney" property="mborrowMoney"/>
+        <result column="m_borrowLoan" property="mborrowLoan"/>
+        <result column="m_debitAndCredit" property="mdebitAndCredit"/>
+        <result column="m_updateTime" property="mupdateTime"/>
+    </resultMap>
+    
+    <sql id="BaseSql">
+        m_TransactionAmount,
+        m_sumTransactionNum,
+        m_yesterdayAmount,
+        m_borrowMoney,
+        m_borrowLoan,
+        m_debitAndCredit,
+        m_updateTime
+    </sql>
+    
+    <!-- 插入数据 -->
+    <insert id="add" parameterType="com.jyb.pojo.Manage">
+        insert into t_manage(<include refid="BaseSql"/>) value(#{mTransactionAmount},#{msumTransactionNum},#{myesterdayAmount},#{mborrowMoney},#{mborrowLoan},#{mdebitAndCredit},#{mupdateTime});
+    </insert>
+    
+    <!-- 查询所有 -->
+    <select id="list" resultMap="ResultManageMap">
+        select * from t_manage;
+    </select>
+    
+    <!-- 根据ID查询单个 -->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.Manage">
+        select * from t_manage where m_id=#{mid};
+    </select>
+    
+    <!-- 修改数据 -->
+    <update id="update" parameterType="com.jyb.pojo.Manage">
+        update t_manage set m_TransactionAmount=#{mTransactionAmount},m_sumTransactionNum=#{msumTransactionNum},m_yesterdayAmount=#{myesterdayAmount},m_borrowMoney=#{mborrowMoney},m_borrowLoan=#{mborrowLoan},m_debitAndCredit=#{mdebitAndCredit},m_updateTime=#{mupdateTime} where m_id=#{mid};
+    </update>
+    
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_manage where m_id=#{mid};
+    </delete>
+</mapper>

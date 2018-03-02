@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.InformationMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Information" id="ResultInformationMap">
+	<id column="id" property="id"/>
+	<result column="companyname" property="companyname"/>
+	<result column="abbreviation" property="abbreviation"/>
+	<result column="creditnumber" property="creditnumber"/>
+	<result column="zc_fund" property="zcfund"/>
+	<result column="sj_fund" property="sjfund"/>
+	<result column="zc_address" property="zcaddress"/>
+	<result column="manage_address" property="manageaddress"/>
+	<result column="createtime" property="createtime"/>
+	<result column="manage_deadline" property="managedeadline"/>
+	<result column="status" property="status"/>
+	<result column="legal_person" property="legalperson"/>
+	<result column="scope" property="scope"/>
+	</resultMap>
+	<sql id="BaseSql">
+		companyname,
+		abbreviation,
+		creditnumber,
+		zc_fund,
+		sj_fund,
+		zc_address,
+		manage_address,
+		createtime,
+		manage_deadline,
+		status,
+		legal_person,
+		scope
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Information">
+		insert into t_information(<include refid="BaseSql"/>) value(#{companyname},#{abbreviation},
+		#{creditnumber},#{zc_fund},#{sj_fund},
+		#{zc_address},#{manage_address},#{createtime},#{manage_deadline},#{status},#{legal_person},
+		#{scope});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultInformationMap">
+		select * from t_information;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_information where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Information">
+		update t_information set 
+			companyname=#{companyname},
+			abbreviation=#{abbreviation},
+			creditnumber=#{creditnumber},
+			zc_fund=#{zc_fund},
+			sj_fund=#{sj_fund},
+			zc_address=#{zc_address},
+			manage_address=#{manage_address},
+			createtime=#{createtime},
+			manage_deadline=#{manage_deadline},
+			status=#{status},
+			legal_person=#{legal_person},
+			scope=#{scope}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_information where id = #{id}
+	</delete>
+</mapper>

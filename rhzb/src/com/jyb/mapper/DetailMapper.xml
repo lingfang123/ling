@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.DetailMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Detail" id="ResultdetailMap">
+	<id column="id" property="id"/>
+	<result column="userid" property="userid"/>
+	<result column="money" property="money"/>
+	<result column="struts" property="struts"/>
+	<result column="remark" property="remark"/>
+	<result column="bychar" property="bychar"/>
+	<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		money,
+		dateiltime,
+		struts,
+		remark,
+		bychar,
+		bystr
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Detail">
+		insert into t_fund_detail(<include refid="BaseSql"/>) 
+		values(
+			#{userid},
+			#{money},
+			#{dateiltime},
+			#{struts},
+			#{remark},
+			#{bychar},
+			#{bystr})
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultdetailMap">
+	select * from t_fund_detail;
+	</select>
+	
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer">
+	select * from t_fund_detail where id=#{id};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	delete from t_fund_detail where id=#{id};
+	</delete>
+	<!-- 查询总数据 -->
+	<select id="getTotal" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+		select count(*) from t_fund_detail where userid=#{userid} ;
+	</select>
+	<!-- 分页查询 -->
+	<select id="findAll" resultMap="ResultdetailMap" parameterType="map">
+		select * from t_fund_detail fd where fd.userid=#{userid} limit #{start},#{size}
+	</select>
+	<!-- 根据userid查询 -->
+	<select id="getListByUserid" parameterType="java.lang.Integer" resultMap="ResultdetailMap">
+	    select * from t_fund_detail where userid=#{arg0};
+	</select>
+</mapper>

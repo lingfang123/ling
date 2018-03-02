@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.MarkMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Mark" id="ResultMarkMap">
+		<id column="id" property="id"/>
+		<result column="markname" property="markname"/>
+		<result column="remark" property="remark"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		makename,
+		remark,
+		bychar,
+		bystr
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Mark">
+		insert into t_mark(<include refid="BaseSql"/>) value(#{makename},#{remark},#{bychar},#{bystr});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultMarkMap">
+	    select * from t_mark;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.Mark">
+	    select * from t_mark where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Mark">
+	    update t_mark set makename=#{makename},remark=#{remark},bychar=#{bychar},bystr=#{bystr} where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	    delete from t_mark where id=#{id};
+	</delete>
+	<!-- 根据id查询标的类型 -->
+	<select id="markList" resultMap="ResultMarkMap">
+		select * from t_mark
+	</select>
+</mapper>

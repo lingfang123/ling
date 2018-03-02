@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserWithdrawMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserWithdraw" id="ResultUserMap">
+		<id column="id" property="userid"/>
+		<result column="userid" property="userid"/>
+		<result column="withdrawTime" property="withdrawTime"/>
+		<result column="withdrawMoney" property="withdrawMoney"/>
+		<result column="poundage" property="poundage"/>
+		<result column="bankName" property="bankName"/>
+		<result column="bankcardno" property="bankcardno"/>
+		<result column="status" property="status"/>
+		<result column="empid" property="operatorId"/>
+		<result column="arriveTime" property="arriveTime"/>
+		<result column="arriveMoney" property="arriveMoney"/>
+		<result column="ipAddress" property="ipAddress"/>
+		<result column="areaIp" property="areaIp"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		withdrawTime,
+		withdrawMoney,
+		poundage,
+		bankName,
+		bankcardno,
+		status,
+		empid,
+		arriveTime,
+		arriveMoney,
+		ipAddress,
+		areaIp
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserWithdraw">
+		insert into t_user_withdraw(<include refid="BaseSql"/>) 
+		value(
+			#{userid},
+			#{withdrawTime},
+			#{withdrawMoney},
+			#{poundage},
+			#{bankName},
+			#{bankcardno},
+			#{status},
+			#{operatorId},
+			#{arriveTime},
+			#{arriveMoney},
+			#{ipAddress},
+			#{areaIp})
+	</insert>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserMap">
+		select * from t_user_withdraw;
+	</select>
+		
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_user_withdraw where id=#{id};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.UserWithdraw">
+		
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete">
+		delete from t_user_withdraw where id=#{id}
+	</delete>
+</mapper>

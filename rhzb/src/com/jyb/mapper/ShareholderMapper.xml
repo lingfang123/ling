@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ShareholderMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Shareholder" id="ResultShareholderMap">
+	<id column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="companyname" property="companyname"/>
+	<result column="holdings" property="holdings"/>
+	<result column="cz_money" property="cz_money"/>
+	</resultMap>
+	<sql id="BaseSql">
+		name,
+		companyname,
+		holdings,
+		cz_money
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Shareholder">
+		insert into t_shareholder(<include refid="BaseSql"/>) value(#{name},
+		#{companyname},#{holdings},#{czmoney});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultShareholderMap">
+		select * from t_shareholder;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_shareholder where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Shareholder">
+		update t_shareholder set 
+			name=#{name},
+			companyname=#{companyname},
+			holdings=#{holdings},
+			czmoney=#{czmoney}
+		 where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+	delete from t_shareholder where id = #{id}
+	</delete>
+</mapper>

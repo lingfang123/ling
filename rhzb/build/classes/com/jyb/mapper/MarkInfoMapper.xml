@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.MarkInfoMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.MarkInfo" id="ResultMarkInfoMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="applyforid" property="applyforid"/>
+		<result column="headline" property="headline"/>
+		<result column="money" property="money"/>
+		<result column="markid" property="markid"/>
+		<result column="countmoney" property="countmoney"/>
+		<result column="accrual" property="accrual"/>
+		<result column="refundtypeid" property="refundtypeid"/>
+		<result column="paymentMode" property="paymentMode"/>
+		<result column="investmin" property="investmin"/>
+		<result column="investmax" property="investmax"/>
+		<result column="borrowtime" property="borrowtime"/>
+		<result column="purpose" property="purpose"/>
+		<result column="deadline" property="deadline"/>
+		<result column="starttime" property="starttime"/>
+		<result column="refundstart" property="refundstart"/>
+		<result column="moneyaccrual" property="moneyaccrual"/>
+		<result column="moneybenjin" property="moneybenjin"/>
+		<result column="overduestatus" property="overduestatus"/>
+		<result column="projectrating" property="projectrating"/>
+		<result column="vcopinion" property="vcopinion"/>
+		<result column="vcopiniondj" property="vcopiniondj"/>
+		<result column="count" property="count"/>
+		<result column="struts" property="struts"/>
+		<result column="backup1" property="backup1"/>
+		<result column="backup2" property="backup2"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		applyforid,
+		headline,
+		money,
+		markid,
+		countmoney,
+		accrual,
+		refundtypeid,
+		paymentMode,
+		investmin,
+		investmax,
+		borrowtime,
+		purpose,
+		deadline,
+		starttime,
+		refundstart,
+		moneyaccrual,
+		moneybenjin,
+		overduestatus,
+		projectrating,
+		vcopinion,
+		vcopiniondj,
+		count,
+		struts,
+		backup1,
+		backup2      
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.MarkInfo">
+	    insert into t_mark_info(<include refid="BaseSql"/>) value(userid=#{userid},
+			applyforid=#{applyforid},
+			headline=#{headline},
+			money=#{money},
+			markid=#{markid},
+			countmoney=#{countmoney},
+			accrual=#{accrual},
+			refundtypeid=#{refundtypeid},
+			paymentMode=#{paymentMode},
+			investmin=#{investmin},
+			investmax=#{investmax},
+			borrowtime=#{borrowtime},
+			purpose=#{purpose},
+			deadline=#{deadline},
+			starttime=#{starttime},
+			refundstart=#{refundstart},
+			moneyaccrual=#{moneyaccrual},
+			moneybenjin=#{moneybenjin},
+			overduestatus=#{overduestatus},
+			projectrating=#{projectrating},
+			vcopinion=#{vcopinion},
+			vcopiniondj=#{vcopiniondj},
+			count=#{count},
+			struts=#{struts},
+			backup1=#{backup1},
+			backup2=#{backup2}); 
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultMarkInfoMap">
+	    select * from t_mark_info;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.MarkInfo">
+	    select * from t_mark_info where id=#{id};
+	</select>
+	<!-- 修改数据 -->
+	<update id="update">
+	    update t_mark_info set userid=#{userid},
+			applyforid=#{applyforid},
+			headline=#{headline},
+			money=#{money},
+			markid=#{markid},
+			countmoney=#{countmoney},
+			accrual=#{accrual},
+			refundtypeid=#{refundtypeid},
+			paymentMode=#{paymentMode},
+			investmin=#{investmin},
+			investmax=#{investmax},
+			borrowtime=#{borrowtime},
+			purpose=#{purpose},
+			deadline=#{deadline},
+			starttime=#{starttime},
+			refundstart=#{refundstart},
+			moneyaccrual=#{moneyaccrual},
+			moneybenjin=#{moneybenjin},
+			overduestatus=#{overduestatus},
+			projectrating=#{projectrating},
+			vcopinion=#{vcopinion},
+			vcopiniondj=#{vcopiniondj},
+			count=#{count},
+			struts=#{struts},
+			backup1=#{backup1},
+			backup2=#{backup2} where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	    delete from t_mark_info where id=#{id};
+	</delete>
+	<!-- 根据markid查询List -->
+	<select id="listByMarkid" parameterType="java.lang.Integer" resultMap="ResultMarkInfoMap">
+	    select * from t_mark_info where markid=#{arg0};
+	</select>
+	<!-- 查询平台已筹金额 -->
+	<select id="sumMoney" resultType="java.lang.Double">
+	    select COALESCE(sum(mi.countmoney),0.00) from t_mark_info mi; 
+	</select>
+	<!-- 分页查询 -->
+	<select id="listAll" parameterType="java.util.Map" resultMap="ResultMarkInfoMap">
+	    select * from t_mark_info limit #{start},#{size};
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="getTotal" resultType="java.lang.Integer">
+	    select count(*) from t_mark_info;
+	</select>
+	<!-- 查询各种标总页数 -->
+	<select id="getTotalBymark" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	    select count(*) from t_mark_info where markid=#{arg0};
+	</select>
+	<!-- 单种标分页 -->
+	<select id="pageByMark" parameterType="java.util.Map" resultMap="ResultMarkInfoMap">
+	    select * from t_mark_info where markid=#{markid} limit #{start},#{size};
+	</select>
+</mapper>

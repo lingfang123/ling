@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.DatesMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.Dates" id="ResultDatesMap">
+		<id column="d_id" property="did"></id>
+		<result column="d_name" property="dname"/>
+		<result column="d_img" property="dimg"/>
+		<result column="type" property="type"/>
+		<result column="createtime" property="createtime"/>
+		<result column="status" property="status"/>
+		<result column="empid" property="empid"/>
+	</resultMap>
+	<sql id="BaseSql">
+		d_name,
+		d_img,
+		type,
+		createtime,
+		status,
+		empid
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Dates">
+	insert into t_date(<include refid="BaseSql"/>) value(#{d_name},
+		#{d_img},#{type},#{createtime},#{status},#{empid});</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultDatesMap">
+		select * from t_date
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer">
+	select * from t_date where id=#{d_id}
+	</select>
+	<!-- 修改数据 -->
+	<update id="update"></update>
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+	delete from t_date where id=#{d_id};
+	</delete>
+</mapper>

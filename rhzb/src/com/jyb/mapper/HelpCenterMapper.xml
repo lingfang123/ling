@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.HelpCenterMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.HelpCenter" id="ResultHelpCenterMap">
+		<id column="id" property="id"></id>
+		<result column="classify" property="classify"/>
+		<result column="issue" property="issue"/>
+		<result column="answer" property="answer"/>
+	</resultMap>
+	<sql id="BaseSql">
+		classify,
+		issue,
+		answer
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add">
+		insert into t_help_center(<include refid="BaseSql"/>) value(#{classify},#{issue},#{answer});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultHelpCenterMap">
+		select * from t_help_center
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_help_center where id=#{id}; 
+	</select>
+	<!-- 修改数据 -->
+	<update id="update">
+		update t_help_center set classify=#{classify},issue=#{issue},answer=#{answer} where id=#{id};
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+		 delete from t_help_center where id=#{id};
+	</delete>
+</mapper>

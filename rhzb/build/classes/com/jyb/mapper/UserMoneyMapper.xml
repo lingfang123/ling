@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserMoneyMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserMoney" id="ResultUserMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="accountMoney" property="accountMoney"/>
+		<result column="usableMoney" property="usableMoney"/>
+		<result column="zqMoney" property="zqMoney"/>
+		<result column="freezeMoney" property="freezeMoney"/>
+		<result column="collectionMoney" property="collectionMoney"/>
+		<result column="repayMoney" property="repayMoney"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		accountMoney,
+		usableMoney,
+		zqMoney,
+		freezeMoney,
+		collectionMoney,
+		repayMoney
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserMoney">
+		insert into t_user_money(<include refid="BaseSql"/>) value(#{userid},#{accountMoney},
+		#{usableMoney},#{zqMoney},#{freezeMoney},#{collectionMoney},#{repayMoney});
+	</insert>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserMap">
+		select * from t_user_money;
+	</select>
+		
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from t_user_money where id=#{id};
+	</select>
+	
+	<!-- 根据userid查询单个 -->
+	<select id="getByuserid" parameterType="java.lang.Integer" resultType="com.jyb.pojo.UserMoney">
+		select * from t_user_money where userid=#{userid};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="updateUserMoney" parameterType="com.jyb.pojo.UserMoney">
+	    update t_user_money set accountMoney=#{accountMoney},
+		usableMoney=#{usableMoney},
+		zqMoney=#{zqMoney},
+		freezeMoney=#{freezeMoney},
+		collectionMoney=#{collectionMoney},
+		repayMoney=#{repayMoney} where userid=#{userid};
+	</update>
+	
+	<!-- 提现 -->
+	<update id="update" parameterType="com.jyb.pojo.UserMoney">
+		update t_user_money set 
+		  <if test="#{accountMoney!=null}">accountMoney=#{accountMoney},</if>
+		  <if test="#{usableMoney!=null}">usableMoney=#{accountMoney},</if>
+		  <if test="#{zqMoney!=null}">zqMoney=#{zqMoney},</if>
+		  <if test="#{freezeMoney!=null}">freezeMoney=#{freezeMoney},</if>
+		  <if test="#{collectionMoney!=null}">collectionMoney=#{collectionMoney},</if>
+		  <if test="#{repayMoney!=null}">repayMoney=#{repayMoney},</if>
+		userid=#{userid} 
+		<where>
+			userid=#{userid}
+		</where>
+	</update>
+	<!-- 充值 -->
+	<update id="updateAdd" parameterType="com.jyb.pojo.UserMoney">
+		update t_user_money set 
+		  <if test="#{accountMoney!=null}">accountMoney=accountMoney+#{accountMoney},</if>
+		  <if test="#{usableMoney!=null}">usableMoney=usableMoney+#{accountMoney},</if>
+		  <if test="#{zqMoney!=null}">zqMoney=#{zqMoney},</if>
+	  <if test="#{freezeMoney!=null}">freezeMoney=#{freezeMoney},</if>
+		  <if test="#{collectionMoney!=null}">collectionMoney=#{collectionMoney},</if>
+		  <if test="#{repayMoney!=null}">repayMoney=#{repayMoney},</if>
+		userid=#{userid} 
+		<where>
+			userid=#{userid}
+		</where>
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete">
+		delete from t_user_money where id=#{id};
+	</delete>
+	<!-- 计算钱 -->
+	<update id="updateUserMoneyh" parameterType="com.jyb.pojo.UserMoney">
+		UPDATE t_user_money um
+		SET 
+			um.freezeMoney = #{freezeMoney},
+ 			um.collectionMoney = #{collectionMoney}
+		WHERE
+			um.userid = #{userid}
+	</update>
+	<!-- 平台为用户赚取金额 -->
+	<select id="sumZqmoney" resultType="java.lang.Double">
+	    select COALESCE(sum(zqMoney),0.00) from t_user_money;
+	</select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.CityMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.City" id="ResultCityMap">
+	<id column="c_id" property="cid"/>
+	<result column="cityName" property="cityName"/>
+	<result column="provinceID" property="provinceID"/>
+	</resultMap>
+	<sql id="BaseSql">
+		cityName,
+		provinceID
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.City">
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultCityMap">
+	select * from t_city;
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer">
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update"></update>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType="java.lang.Integer">
+	</delete>
+</mapper>

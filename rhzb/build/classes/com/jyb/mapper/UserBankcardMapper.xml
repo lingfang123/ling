@@ -1,0 +1,75 @@
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserBankcardMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserBankcard" id="ResultUserBankcarkMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="bankcardno" property="bankcardno"/>
+		<result column="placebank" property="placebank"/>
+		<result column="bindingtime" property="bindingtime"/>
+		<result column="status" property="status"/>
+		<result column="reserved1" property="reserved1"/>
+		<result column="reserved2" property="reserved2"/>
+		<result column="images" property="images"/>
+		<result column="reserved3" property="reserved3"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		bankcardno,
+		placebank,
+		bindingtime,
+		status,
+		reserved1,
+		reserved2,
+		images,
+		reserved3
+	</sql>
+	
+	<!-- 银行卡 插入数据  -->
+	<insert id="add" parameterType="com.jyb.pojo.UserBankcard">
+		insert into t_user_bankcard(<include refid="BaseSql"></include>) value(#{userid},#{bankcardno},
+			#{placebank},#{bindingtime},#{status},#{reserved1},#{reserved2},#{images},#{reserved3});
+	</insert>
+	
+	<!-- 银行卡  查询所有数据  -->
+	<select id="list" resultMap="ResultUserBankcarkMap">
+		select * from t_user_bankcard
+	</select>
+	
+	<!-- 银行卡  查询单条数据  -->
+	<select id="getById" parameterType="java.lang.Integer" resultMap="ResultUserBankcarkMap">
+		select * from t_user_bankcard t where t.id = #{id}
+	</select>
+	
+	<!-- 银行卡  修改数据  -->
+	<update id="update" parameterType="com.jyb.pojo.UserBankcard">
+		update t_user_bankcard set userid=#{userid},
+			bankcardno=#{bankcardno},
+			placebank=#{placebank},
+			bindingtime=#{bindingtime},
+			status=#{status},
+			reserved1=#{reserved1},
+			reserved2=#{reserved1},
+			images=#{images},
+			reserved3=#{reserved3}
+	</update>
+	
+	<!-- 银行卡   删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_user_bankcard where id = #{arg0} 
+	</delete>
+	<!-- 银行卡   根据用户id查询银行卡 -->
+	<select id="findBank" resultMap="ResultUserBankcarkMap" parameterType="java.lang.Integer">
+		select * from t_user_bankcard t where t.userid = #{id} 
+	</select>
+	
+	<!-- 银行卡   根据银行卡号查询银行卡 -->
+	<select id="findUserBank" resultMap="ResultUserBankcarkMap" parameterType="java.lang.String">
+		select * from t_user_bankcard t where t.bankcardno = #{bankcardno} 
+	</select>
+	<select id="findBankNo" resultMap="ResultUserBankcarkMap" parameterType="java.lang.String">
+		select * from t_user_bankcard t where t.bankcardno = #{bankcardno} 
+	</select>
+</mapper>

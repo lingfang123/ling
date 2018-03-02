@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ApplyforInspectMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.ApplyforInspect" id="ResultApplyInspectMap">
+		<id column="id" property="id"/>
+		<result column="applyforid" property="applyforid"/>
+		<result column="swname" property="swname"/>
+		<result column="swpinpai" property="swpinpai"/>
+		<result column="kctime" property="kctime"/>
+		<result column="inspectimg1" property="inspectimg1"/>
+		<result column=" inspectimg2" property=" inspectimg2"/>
+		<result column=" inspectimg3" property=" inspectimg3"/>
+		<result column=" inspectimg4" property=" inspectimg4"/>
+		<result column="inspectimg5" property="inspectimg5"/>
+		<result column="struts" property="struts"/>
+		<result column="backup1" property="backup1"/>
+		<result column="backup2" property="backup2"/>
+	</resultMap>
+	
+	<sql id="BaseSql">
+		applyforid,
+		swname,
+		swpinpai,
+		kctime,
+		inspectimg1,
+		inspectimg2,
+		inspectimg3,
+		inspectimg4,
+		inspectimg5,
+		struts,
+		backup1,
+		backup2
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.ApplyforInspect">
+		insert into t_applyforinspect(<include refid="BaseSql"></include>)value(#{applyforid},#{swname},#{swpinpai},#{kctime},#{inspectimg1},
+		#{inspectimg2},#{inspectimg3},#{inspectimg4},#{inspectimg5},#{struts},#{backup1},#{backup2});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultApplyInspectMap">
+		select * from t_applyforInspect
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.ApplyforInspect">
+		select * from t_applyforInspect where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.ApplyforInspect">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer"> 
+		delete from t_applyforInspect where id = #{id}
+	</delete>
+	
+	
+	</mapper>

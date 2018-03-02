@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.LogsMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.Logs" id="ResultLogsMap">
+		<id column="id" property="id"/>
+		<result column="exception" property="exception"/>
+		<result column="method" property="method"/>
+		<result column="operatedate" property="operateDate"/>
+		<result column="params" property="params"/>
+		<result column="remoteaddr" property="remoteAddr"/>
+		<result column="requesturi" property="requestUri"/>
+		<result column="timeout" property="timeout"/>
+		<result column="title" property="title"/>
+		<result column="type" property="type"/>
+		<result column="userid" property="userId"/>
+		
+	</resultMap>
+	<sql id="BaseSql">
+		exception,
+		method,
+		operatedate,
+		params,
+		remoteaddr,
+		requesturi,
+		timeout,
+		title,
+		type,
+		userid
+	
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.Logs">
+		insert into logsq(<include refid="BaseSql"/>) value(#{exception},#{method},#{operateDate},#{params},#{remoteAddr},#{requestUri},#{timeout},#{title},#{type},#{userId});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list"  resultMap="ResultLogsMap">
+	 select * from logsq
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.Logs" >
+		select * from logsq where id=#{id}
+	</select>
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Logs">
+	</update>
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+			delete from logsq where id=#{id}
+	</delete>
+</mapper>

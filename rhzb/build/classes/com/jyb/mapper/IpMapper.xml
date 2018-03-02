@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.IpMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.Ip" id="ResultipMap">
+		<id column="id" property="id"></id>
+		<result column="ip" property="ip"/>
+	</resultMap>
+	<sql id="BaseSql">
+		ip
+	</sql>
+	<select id="list" resultMap="ResultipMap">
+		select * from t_ip;
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.Ip">
+		update t_ip set ip=#{ip};
+	</update>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.RecruitMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <resultMap type="com.jyb.pojo.Recruit" id="ResultRecruitMap">
+        <id column="id" property="id"/>
+        <result column="headline" property="headline"/>
+        <result column="rejoin" property="rejoin"/>
+        <result column="backup1" property="backup1"/>
+        <result column="backup2" property="backup2"/>
+    </resultMap>
+    <sql id="BaseSql">
+        headline,
+        rejoin,
+        backup1,
+        backup2
+    </sql>
+    <!-- 查询总记录数 -->
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) from t_recruit;
+    </select>
+    <!-- 查询所有 -->
+    <select id="list" resultMap="ResultRecruitMap">
+        select * from t_recruit;
+    </select>
+    <insert id="add"></insert>
+    <update id="update"></update>
+    <delete id="delete"></delete>
+</mapper>

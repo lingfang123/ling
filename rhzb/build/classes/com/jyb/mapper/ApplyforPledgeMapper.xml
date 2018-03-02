@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ApplyforPledgeMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.ApplyforPledge" id="ResultApplyPledgeMap">
+		<id column="id" property="id"/>
+		<result column="applyforid" property="applyforid"/>
+		<result column="goodname" property="goodname"/>
+		<result column="imgurl" property="imgurl"/>
+		<result column="detail" property="detail"/>
+		<result column="verifystatus" property="verifystatus"/>
+		<result column="hstime" property="hstime"/>
+		<result column="backup1" property="backup1"/>
+		<result column="backup2" property="backup2"/>
+	</resultMap>
+	
+	<sql id="BaseSql">
+		applyforid,
+		goodname,
+		imgurl,
+		detail,
+		verifystatus,
+		hstime,
+		backup1,
+		backup2
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.ApplyforPledge">
+		insert into t_applyforkc(<include refid="BaseSql"></include>)value(#{applyforid},#{goodname},#{imgurl},#{detail},#{verifystatus},
+		#{hstime},#{backup1},#{backup2});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultApplyPledgeMap">
+		select * from t_applyforkc
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.ApplyforPledge">
+		select * from t_applyforkc where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.ApplyforPledge">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer"> 
+		delete from t_applyforkc where id = #{id}
+	</delete>
+	</mapper>

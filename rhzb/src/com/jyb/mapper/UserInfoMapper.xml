@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserInfoMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserInfo" id="ResultUserInfoMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="name" property="name"/>
+		<result column="namestatus" property="namestatus"/>
+		<result column="check1" property="check1"/>
+		<result column="identityCard" property="identityCard"/>
+		<result column="cardstatus" property="cardstatus"/>
+		<result column="check2" property="check2"/>
+		<result column="dealPassword" property="dealPassword"/>
+		<result column="dealPassstatus" property="dealPassstatus"/>
+		<result column="email" property="email"/>
+		<result column="emailstatus" property="emailstatus"/>
+		
+		<result column="openAccount" property="openAccount"/>
+		
+		<result column="exitgencystatus" property="exitgencystatus"/>
+		<result column="exitgencyname" property="exitgencyname"/>
+		<result column="exitgencyphone" property="exitgencyphone"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		name,
+		namestatus,
+		check1,
+		identityCard,
+		cardstatus,
+		check2,
+		dealPassword,
+		dealPassstatus,
+		email,
+		emailstatus,
+		exitgencystatus,
+		exitgencyname,
+		exitgencyphone,
+		openAccount
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserInfo">
+		insert into  t_user_info(<include refid="BaseSql"/>) value(#{userid},#{name},
+		#{namestatus},#{check1},#{identityCard},#{cardstatus},#{check2},#{dealPassword},#{dealPassstatus},#{email},#{emailstatus},
+		#{exitgencystatus},#{exitgencyname},#{exitgencyphone},#{openAccount});
+	</insert>
+	
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultUserInfoMap">
+		select * from  t_user_info;
+	</select>
+		
+	<!-- 根据ID查询单个 -->
+	<select id="getById">
+		select * from  t_user_info where id=#{id};
+	</select>
+	
+	<!-- 根据userid查询单个 -->
+	
+	<select id="getByuserid" parameterType="java.lang.Integer" resultType="com.jyb.pojo.UserInfo">
+		select * from  t_user_info where userid=#{userid};
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.UserInfo">
+		update t_user_info set 
+			<if test="name!=null and name!=''">
+         		name=#{name},
+         		namestatus=#{namestatus},
+        	</if>
+        	<if test="identityCard!=null and identityCard!=''">
+         		identityCard=#{identityCard},
+         		cardstatus=#{cardstatus},
+        	</if>
+        	<if test="dealPassword!=null and dealPassword!=''">
+         		dealPassword=#{dealPassword},
+         		dealPassstatus=#{dealPassstatus},
+        	</if>
+        	<if test="email!=null and email!=''">
+         		email=#{email},
+         		emailstatus=#{emailstatus},
+        	</if>
+        	<if test="exitgencyname!=null and exitgencyname!=''">
+         		exitgencyname=#{exitgencyname},
+         		exitgencystatus=#{exitgencystatus},
+        	</if>
+        	<if test="exitgencyphone!=null and exitgencyphone!=''">
+         		exitgencyphone=#{exitgencyphone},
+         		exitgencystatus=#{exitgencystatus},
+        	</if>
+        	<if test="openAccount!=null and openAccount!=''">
+         		openAccount=#{openAccount},
+        	</if>
+        	userid=#{userid} where userid=#{userid};
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" >
+		delete from  t_user_info where id=#{id};
+	</delete>
+	
+	<!-- 根据email查询 -->
+	<select id="getUserEmail" parameterType="java.lang.String" resultType="com.jyb.pojo.UserInfo">
+		select * from t_user_info where email=#{email};
+	</select>
+	
+</mapper>

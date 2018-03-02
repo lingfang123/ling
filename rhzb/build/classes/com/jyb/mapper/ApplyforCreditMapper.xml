@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.ApplyforCreditMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	<resultMap type="com.jyb.pojo.ApplyforCredit" id="ResultApplyMap">
+		<id column="id" property="id"/>
+		<result column="applyforid" property="applyforid"/>
+		<result column="marriage" property="marriage"/>
+		<result column="children" property="children"/>
+		<result column="directname" property="directname"/>
+		<result column="directrelation" property="directrelation"/>
+		<result column="directphone" property="directphone"/>
+		<result column="qtname" property="qtname"/>
+		<result column="qtphone" property="qtphone"/>
+		<result column="professionzt" property="professionzt"/>
+		<result column="unitsname" property="unitsname"/>
+		<result column="postname" property="postname"/>
+		<result column="monthlyincome" property="monthlyincome"/>
+		<result column="email" property="email"/>
+		<result column="provinceID" property="provinceID"/>
+		<result column="cityID" property="cityID"/>
+		<result column="districtID" property="districtID"/>
+		<result column="address" property="address"/>
+		<result column="possesshouse" property="possesshouse"/>
+		<result column="loanshouse" property="loanshouse"/>
+		<result column="possesscar" property="possesscar"/>
+		<result column="loanscar" property="loanscar"/>
+		<result column="identitycardimg" property="identitycardimg"/>
+		<result column="employeecardimg" property="employeecardimg"/>
+		<result column="incomecardimg" property="incomecardimg"/>
+		<result column="houseimg" property="houseimg"/>
+		<result column="carimg" property="carimg"/>
+		<result column="educationimg" property="educationimg"/>
+		<result column="backup1" property="backup1"/>
+		<result column="backup2" property="backup2"/>
+	</resultMap>
+	
+	<sql id="BaseSql">
+		applyforid,
+		marriage,
+		children,
+		directname,
+		directrelation,
+		directphone,
+		qtname,
+		qtphone,
+		professionzt,
+		unitsname,
+		postname,
+		monthlyincome,
+		email,
+		provinceID,
+		cityID,
+		districtID,
+		address,
+		possesshouse,
+		loanshouse,
+		possesscar,
+		loanscar,
+		identitycardimg,
+		employeecardimg,
+		incomecardimg,
+		houseimg,
+		carimg,
+		educationimg,
+		backup1,
+		backup2
+	</sql>
+	<!-- 插入数据 -->
+	<insert id="add" parameterType="com.jyb.pojo.ApplyforCredit">
+	insert into t_applyforcredit(<include refid="BaseSql"></include>)value(#{applyforid},#{marriage},#{children},#{directname},#{directrelation},
+	#{directphone},#{qtname},#{professionzt},#{professionzt},#{unitsname},#{postname},#{monthlyincome},#{email},#{provinceID},#{cityID},#{districtID},
+	#{address},#{possesshouse},#{loanshouse},#{possesscar},#{loanscar},#{identitycardimg},#{employeecardimg},#{incomecardimg},#{houseimg},#{carimg},
+	#{educationimg},#{backup1},#{backup2});
+	</insert>
+	<!-- 查询所有 -->
+	<select id="list" resultMap="ResultApplyMap">
+	select * from t_applyforcredit
+	</select>
+	<!-- 根据ID查询单个 -->
+	<select id="getById" parameterType="java.lang.Integer" resultType="com.jyb.pojo.ApplyforCredit">
+		select * from t_applyforcredit where id=#{id}
+	</select>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.jyb.pojo.ApplyforCredit">
+	
+	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.lang.Integer"> 
+		delete from t_applyforcredit where id = #{id}
+	</delete>
+	
+</mapper>

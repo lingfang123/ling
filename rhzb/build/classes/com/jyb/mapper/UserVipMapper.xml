@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyb.mapper.UserVipMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.jyb.pojo.UserVip" id="ResultUservipMap">
+		<id column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="vipdj" property="vipdj"/>
+		<result column="viptime" property="viptime"/>
+		<result column="remark" property="remark"/>
+		<result column="bychar" property="bychar"/>
+		<result column="bystr" property="bystr"/>
+	</resultMap>
+	<sql id="BaseSql">
+		userid,
+		vipdj,
+		viptime,
+		remark,
+		bychar,
+		bystr
+	</sql>
+	
+	<!-- 用户VIP表  数据查询 -->
+	<insert id="add" parameterType="com.jyb.pojo.UserVip">
+		insert into t_user_vip(<include refid="BaseSql"/>) value(
+			#{userid},
+			#{vipdj},
+			#{viptime},
+			#{remark},
+			#{bychar},
+			#{bystr});
+	</insert>
+	
+	<!-- 用户VIP表   数据查询 -->
+	<select id="list" resultMap="ResultUservipMap">
+		select * from t_user_vip
+	</select>
+	
+	<!-- 用户VIP表 单个查询 -->
+	<select id="getById" parameterType="java.lang.Integer" resultMap="ResultUservipMap">
+		select * from t_user_vip t where t.id = #{id}
+	</select>
+	
+	<!-- 根据userid单个查询 -->
+	<select id="getByuserid" parameterType="java.lang.Integer" resultType="com.jyb.pojo.UserVip">
+		select * from t_user_vip t where t.userid = #{userid}
+	</select>
+	
+	<!--  用户VIP表  数据修改 -->
+	<update id="update" parameterType="com.jyb.pojo.UserVip">
+		update t_user_vip set 
+			userid=#{userid},
+			vipdj=#{vipdj},
+			viptime=#{viptime},
+			remark=#{remark},
+			bychar=#{bychar},
+			bystr=#{bystr} where id =#{id}
+	</update>
+	
+	<!--  用户VIP表   数据删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_user_vip where id =#{id};
+	</delete>
+	
+</mapper>
